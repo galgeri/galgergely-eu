@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Personal bio site for Matt Cromwell - WordPress professional and entrepreneur" />
+  <meta name="description" content="Personal bio site for Gál Gergely" />
   <title id="page-title">Loading...</title>
   <style>
     /* Critical layout CSS */
@@ -12,7 +12,7 @@
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     .bio-container {
       max-width: 680px;
       margin: 3rem auto;
@@ -22,19 +22,19 @@
       gap: 2rem;
       min-height: calc(100vh - 6rem);
     }
-    
+
     .profile-header {
       text-align: center;
       padding: 1rem;
     }
-    
+
     header #gravatar-image {
       width: 128px;
       height: 128px;
       border-radius: 50%;
       margin-bottom: 1rem;
     }
-    
+
     .social-icons {
       display: flex;
       flex-wrap: wrap;
@@ -42,14 +42,14 @@
       gap: 1rem;
       margin-top: 1rem;
     }
-    
+
     .links-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
       justify-content: center;
     }
-    
+
     .link-button {
       flex: 1 1 calc(33.333% - 1rem);
       min-width: 200px;
@@ -57,7 +57,7 @@
       box-sizing: border-box;
       text-align: center;
     }
-    
+
     @media (max-width: 768px) {
       .bio-container {
         max-width: calc(100vw - 3rem);
@@ -65,16 +65,16 @@
         padding: 1rem;
         min-height: calc(100vh - 3rem);
       }
-      
+
       .profile-image {
         width: 96px;
         height: 96px;
       }
-      
+
       .links-grid {
         flex-direction: column;
       }
-      
+
       .link-button {
         flex: 1 1 100%;
         min-width: 0;
@@ -84,14 +84,14 @@
   <link rel="preload" href="styles/core.css" as="style">
   <link id="core-stylesheet" rel="stylesheet" href="styles/core.css" />
   <!-- Theme stylesheet will be injected by main.js -->
-  <script src="crypto-js.min.js" defer></script>
+  <script src="md5.min.js"></script>
   <script src="main.js" defer></script>
 
 </head>
 <body>
   <main class="bio-container" role="main">
     <header class="profile-header" role="banner">
-      <img id="gravatar-image" alt="Profile picture of Matt Cromwell" class="hovercard" width="128" height="128" />
+      <img id="gravatar-image" alt="Profile picture" class="hovercard" width="128" height="128" />
       <h1 id="profile-name" aria-label="Name"></h1>
       <p id="profile-tagline" class="tagline" aria-label="Tagline"></p>
       <nav class="social-icons" aria-label="Social media links">
@@ -109,26 +109,6 @@
       <div class="links-grid"><!-- Links will be dynamically inserted here --></div>
     </section>
 
-    <section class="blog-section" aria-label="Latest blog post">
-      <h2>Latest from my Blog</h2>
-      <div class="blog-post">
-        <div class="post-content">
-          <!-- Latest blog post will be dynamically inserted here -->
-          <p>Loading latest post...</p>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer" role="contentinfo">
-      <div class="footer-buttons">
-        <a id="contact-button" href="#" class="support-button" aria-label="Contact Me"></a>
-        <a id="support-button" href="#" class="support-button" aria-label="Support button"></a>
-      </div>
-      <div class="credits">
-        <p><a href="https://github.com/mathetos/mathetos.github.io">Get your own link in bio page</a></p>
-      </p>
-      </div>
-    </footer>
   </main>
   <script>
   (function() {

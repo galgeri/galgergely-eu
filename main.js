@@ -1,9 +1,9 @@
 // Theme selection and dynamic loading
 (async function() {
-  const availableThemes = ['bulky', 'kubrik', 'bright', 'dark', 'minimal'];
+  const availableThemes = ['bulky', 'kubrik', 'bright', 'dark', 'minimal', 'blue'];
   const params = new URLSearchParams(window.location.search);
   let theme = params.get('theme');
-  
+
   // If no theme in URL, try to get it from config.json
   if (!theme) {
     try {
@@ -14,12 +14,12 @@
       console.error('Error loading config.json:', error);
     }
   }
-  
+
   // Normalize and validate
   if (!theme || !availableThemes.includes(theme)) {
     theme = 'minimal'; // Fallback to minimal if config.json fails or theme is invalid
   }
-  
+
   // Create and append the theme link immediately
   const link = document.createElement('link');
   link.rel = 'stylesheet';
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const profileImage = document.getElementById('gravatar-image');
     if (config.profile && config.profile.gravatarEmail) {
       const cleanEmail = config.profile.gravatarEmail.trim().toLowerCase();
-      const gravatarHash = CryptoJS.SHA256(cleanEmail);
+      const gravatarHash = md5(cleanEmail);
       profileImage.src = `https://www.gravatar.com/avatar/${gravatarHash}?s=200`;
       if (config.gravatarHovercard) {
         profileImage.classList.add('hovercard');
@@ -115,57 +115,21 @@ async function initializeContent() {
       }
     });
 
-    // Generate link buttons, but skip the Contact Me link if it matches config.contact.url
-    const linksGrid = document.querySelector('.links-grid');
-    config.links.forEach(link => {
-      // Skip if this link is the contact link
-      if (config.contact && link.url === config.contact.url) return;
-      const a = document.createElement('a');
-      a.href = link.url;
-      a.className = 'link-button';
-      a.textContent = link.title;
-      a.ariaLabel = `Visit ${link.title}`;
-      linksGrid.appendChild(a);
-    });
-
-    // Set support button
-    const supportBtn = document.getElementById('support-button');
-    supportBtn.href = config.support.url;
-    supportBtn.textContent = config.support.buttonText;
-    supportBtn.ariaLabel = config.support.buttonText;
-
-    // Set contact button (footer) using config.contact only
-    const contactBtn = document.getElementById('contact-button');
-    if (config.contact && config.contact.url && config.contact.buttonText) {
-      contactBtn.href = config.contact.url;
-      contactBtn.textContent = config.contact.buttonText;
-      contactBtn.ariaLabel = config.contact.buttonText;
-      contactBtn.style.display = '';
+    if (config.links) {
+      // Generate link buttons, but skip the Contact Me link if it matches config.contact.url
+      const linksGrid = document.querySelector('.links-grid');
+      config.links.forEach(link => {
+        // Skip if this link is the contact link
+        if (config.contact && link.url === config.contact.url) return;
+        const a = document.createElement('a');
+        a.href = link.url;
+        a.className = 'link-button';
+        a.textContent = link.title;
+        a.ariaLabel = `Visit ${link.title}`;
+        linksGrid.appendChild(a);
+      });
     } else {
-      contactBtn.style.display = 'none';
-    }
-
-    // Load blog post
-    if (config.blog.rssFeed) {
-      fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(config.blog.rssFeed)}`)
-        .then(response => response.json())
-        .then(data => {
-          const post = data.items[0];
-          document.querySelector('.post-content').innerHTML = `
-            <h3>${post.title}</h3>
-            <p>${post.description.split(' ').slice(0, config.blog.wordCount).join(' ')}...</p>
-            <a href="${post.link}" class="read-more" aria-label="Read more about ${post.title}">Read More →</a>
-          `;
-        })
-        .catch(error => {
-          console.error('Error fetching blog post:', error);
-          document.querySelector('.post-content').innerHTML = `
-            <p>Visit my blog at <a href="${config.blog.rssFeed.split('/feed')[0]}" aria-label="Visit Marco Almeida's blog">blog.wonderm00n.com</a></p>
-          `;
-        });
-    } else {
-      console.error('Blog RSS feed not provided in config.json');
-      document.querySelector('.blog-section').remove();
+      document.querySelector('#link-section').remove();
     }
 
   } catch (error) {
